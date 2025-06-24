@@ -6,25 +6,24 @@ use App\Filters\ApiFilter;
 use Illuminate\Http\Request;
 
 
-class CustomerFilter extends ApiFilter
+class InvoiceFilter extends ApiFilter
 {
   /*
   * NOTE:
     * First thing when it comes to user input; is not to trust the user input!
   */
   protected $safeParams = [
-    'name' => ['eq'],
-    'type' => ['eq'],
-    'email' => ['eq'],
-    'address' => ['eq'],
-    'city' => ['eq'],
-    'state' => ['eq'],
-    'postalCode' => ['eq', 'gt', 'lt'],
-
+    'customerId' => ['eq'],
+    'amount' => ['eq', 'lt', 'gt', 'lte', 'gte', 'ne'],
+    'status' => ['eq', 'ne'],
+    'billedDate' => ['eq', 'lt', 'gt', 'lte', 'gte', 'ne'],
+    'paidDate' => ['eq', 'lt', 'gt', 'lte', 'gte', 'ne'],
   ];
 
   protected $columnMap = [
-    'postalCode' => 'postal_code'
+    'customerId' => 'customer_id',
+    "billedDate" => 'billed_date',
+    "paidDate" => 'paid_date',
   ];
 
   protected $operatorMap = [

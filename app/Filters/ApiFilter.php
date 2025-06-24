@@ -6,6 +6,10 @@ use Illuminate\Http\Request;
 
 class ApiFilter
 {
+  /*
+  * NOTE:
+    * First thing when it comes to user input; is not to trust the user input!
+  */
   protected $safeParams = [];
 
   protected $columnMap = [];
