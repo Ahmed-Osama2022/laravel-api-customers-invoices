@@ -2,6 +2,7 @@
 
 namespace Database\Factories;
 
+use App\Models\Customer;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
@@ -9,15 +10,23 @@ use Illuminate\Database\Eloquent\Factories\Factory;
  */
 class InvoiceFactory extends Factory
 {
-    /**
-     * Define the model's default state.
-     *
-     * @return array<string, mixed>
-     */
-    public function definition(): array
-    {
-        return [
-            //
-        ];
-    }
+  /**
+   * Define the model's default state.
+   *
+   * @return array<string, mixed>
+   */
+  public function definition(): array
+  {
+    // status =>  Billed, Paid, Void
+    $status = $this->faker->randomElement(['B', 'P', 'V']);
+
+    return [
+      'customer_id' => Customer::factory(),
+      'amount' => $this->faker->numberBetween(100, 2000),
+      'status' => $status,
+      // 'billed_date' => $this->faker->dateTimeBetween('-1 year', 'now'),
+      'billed_date' => $this->faker->dateTimeThisDecade(),
+      'paid_date' => $status == 'P' ? $this->faker->dateTimeThisDecade() : null
+    ];
+  }
 }
