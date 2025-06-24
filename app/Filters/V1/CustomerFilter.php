@@ -21,7 +21,6 @@ class CustomerFilter extends ApiFilter
     'city' => ['eq'],
     'state' => ['eq'],
     'postalCode' => ['eq', 'gt', 'lt'],
-
   ];
 
   protected $columnMap = [
@@ -37,24 +36,24 @@ class CustomerFilter extends ApiFilter
     'ne' => '!=',
   ];
 
-  public function transform(Request $request)
-  {
-    $eloquentQuery = [];
+  // public function transform(Request $request)
+  // {
+  //   $eloquentQuery = [];
 
-    foreach ($this->safeParams as $parm => $operators) {
-      $query = $request->query($parm);
+  //   foreach ($this->safeParams as $parm => $operators) {
+  //     $query = $request->query($parm);
 
-      if (isset($query))
-        continue;
-    }
+  //     if (!isset($query))
+  //       continue;
+  //   }
 
-    $column  = $this->columnMap[$parm] ?? $parm;
+  //   $column  = $this->columnMap[$parm] ?? $parm;
 
-    foreach ($operators as $operator) {
-      if (isset($query[$operator])) {
-        $eloquentQuery[] = [$column, $this->operatorMap[$operator], $query[$operator]];
-      }
-    }
-    return $eloquentQuery;
-  }
+  //   foreach ($operators as $operator) {
+  //     if (isset($query[$operator])) {
+  //       $eloquentQuery[] = [$column, $this->operatorMap[$operator], $query[$operator]];
+  //     }
+  //   }
+  //   return $eloquentQuery;
+  // }
 }
