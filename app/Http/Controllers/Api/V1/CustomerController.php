@@ -27,7 +27,10 @@ class CustomerController extends Controller
     if (count($queryItems) == 0) {
       return new CustomerCollection(Customer::paginate());
     } else {
-      return new CustomerCollection(Customer::where($queryItems)->paginate());
+      // return new CustomerCollection(Customer::where($queryItems)->paginate());
+      $invoices = Customer::where($queryItems)->paginate();
+
+      return new CustomerCollection($invoices->appends($request->query()));
     }
 
 
