@@ -22,18 +22,31 @@ class CustomerController extends Controller
      * Thinking how could we filter the data
      */
     $filter = new CustomerFilter();
-    $queryItems = $filter->transform($request); // [['column', 'operator', 'value']]
+    $filterItems = $filter->transform($request); // [['column', 'operator', 'value']]
 
-    if (count($queryItems) == 0) {
-      return new CustomerCollection(Customer::paginate());
-    } else {
-      // return new CustomerCollection(Customer::where($queryItems)->paginate());
-      $invoices = Customer::where($queryItems)->paginate();
+    $includeInvoices = $request->query('includeInvoices');
 
-      return new CustomerCollection($invoices->appends($request->query()));
+    $customers = Customer::where($filterItems);
+
+    if ($includeInvoices) {
+      $customers = Customer::with('invoices');
     }
 
+    return new CustomerCollection($customers->paginate()->appends($request->query()));
 
+
+
+    /**
+     * Old; before 'includeInvioces'
+     */
+    // if (count($filterItems) == 0) {
+    //   return new CustomerCollection(Customer::paginate());
+    // } else {
+    //   // return new CustomerCollection(Customer::where($queryItems)->paginate());
+    //   $invoices = Customer::where($filterItems)->paginate();
+
+    //   return new CustomerCollection($invoices->appends($request->query()));
+    // }
 
     // OLD
     // return Customer::all();
