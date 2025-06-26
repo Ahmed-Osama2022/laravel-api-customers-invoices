@@ -58,9 +58,15 @@ class UpdateCustomerRequest extends FormRequest
 
   protected function prepareForValidation()
   {
-    $this->merge([
-      'postal_code' => $this->postalCode
-    ]);
+    /**
+     * NOTE: if we don't have postal code;
+     * We have not change anything about the data we working with.
+     */
+    if ($this->postalCode) {
+      $this->merge([
+        'postal_code' => $this->postalCode
+      ]);
+    }
   }
 
   /**
