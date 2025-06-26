@@ -55,8 +55,6 @@ class CustomerController extends Controller
     // return new CustomerCollection(Customer::paginate(10));
   }
 
-
-
   /**
    * Store a newly created resource in storage.
    */
