@@ -55,13 +55,7 @@ class CustomerController extends Controller
     // return new CustomerCollection(Customer::paginate(10));
   }
 
-  /**
-   * Show the form for creating a new resource.
-   */
-  public function create()
-  {
-    //
-  }
+
 
   /**
    * Store a newly created resource in storage.
@@ -88,14 +82,6 @@ class CustomerController extends Controller
     }
 
     return new CustomerResource($customer);
-  }
-
-  /**
-   * Show the form for editing the specified resource.
-   */
-  public function edit(Customer $customer)
-  {
-    //
   }
 
   /**
