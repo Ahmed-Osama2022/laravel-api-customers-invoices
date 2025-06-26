@@ -3,6 +3,9 @@
 namespace App\Http\Requests\V1;
 
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Contracts\Validation\Validator;
+use Illuminate\Http\Exceptions\HttpResponseException;
+use Illuminate\Validation\Rule;
 
 class UpdateCustomerRequest extends FormRequest
 {
@@ -11,7 +14,7 @@ class UpdateCustomerRequest extends FormRequest
    */
   public function authorize(): bool
   {
-    return false;
+    return true;
   }
 
   /**
@@ -22,7 +25,49 @@ class UpdateCustomerRequest extends FormRequest
   public function rules(): array
   {
     return [
-      //
+      // Make the Rules here for the request
+      'name' => ['required'],
+      'type' => ['required', Rule::in(['I', 'B', 'i', 'b'])],
+      'email' => ['required', 'email', 'unique:customers,email'],
+      'address' => ['required'],
+      'city' => ['required'],
+      'state' => ['required'],
+      'postalCode' => ['required'],
+    ];
+  }
+
+  protected function prepareForValidation()
+  {
+    $this->merge([
+      'postal_code' => $this->postalCode
+    ]);
+  }
+
+  /**
+   * Handle a failed validation attempt.
+   *
+   * @param  \Illuminate\Contracts\Validation\Validator  $validator
+   * @return void
+   *
+   * @throws \Illuminate\Validation\ValidationException
+   */
+  protected function failedValidation(Validator $validator)
+  {
+    throw new HttpResponseException(response()->json([
+      'message'   => 'Validation errors',
+      'data'      => $validator->errors()
+    ], 422));
+  }
+
+  /**
+   * Get custom messages for validator errors.
+   *
+   * @return array
+   */
+  public function messages()
+  {
+    return [
+      'type.in' => 'The type must be I, B, i or b.',
     ];
   }
 }
