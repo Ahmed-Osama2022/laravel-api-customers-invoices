@@ -25,7 +25,11 @@ class CustomerResource extends JsonResource
       'city' => $this->city,
       'state' => $this->state,
       'postalCode' => $this->postal_code,
-      // NOTE: But we want this only based on the query
+      /**
+       * NOTE:
+       * By using this whenLoaded() method; you will be able conditionally to include the related data for the resource!
+       *  NOTE: But we want this only based on the query
+       */
       'invoices' => InvoiceResource::collection($this->whenLoaded('invoices'))
 
     ];
