@@ -24,16 +24,36 @@ class UpdateCustomerRequest extends FormRequest
    */
   public function rules(): array
   {
-    return [
-      // Make the Rules here for the request
-      'name' => ['required'],
-      'type' => ['required', Rule::in(['I', 'B', 'i', 'b'])],
-      'email' => ['required', 'email', 'unique:customers,email'],
-      'address' => ['required'],
-      'city' => ['required'],
-      'state' => ['required'],
-      'postalCode' => ['required'],
-    ];
+    $method = $this->method(); // 'PUT' || 'PATCH'
+
+    if ($method == 'PUT') {
+      return [
+        // Make the Rules here for the request
+        'name' => ['required'],
+        'type' => ['required', Rule::in(['I', 'B', 'i', 'b'])],
+        'email' => ['required', 'email', 'unique:customers,email'],
+        'address' => ['required'],
+        'city' => ['required'],
+        'state' => ['required'],
+        'postalCode' => ['required'],
+      ];
+    } else {
+      return [
+        /**
+         * "sometimes" Validation Rule
+         *  What it does:
+         * If the field is not present in the request, Laravel skips validation for it.
+         * If the field is present, it must pass the other validation rules that are defined for it.
+         */
+        'name' => ['sometimes', 'required'],
+        'type' => ['sometimes', 'required', Rule::in(['I', 'B', 'i', 'b'])],
+        'email' => ['sometimes', 'required', 'email', 'unique:customers,email'],
+        'address' => ['sometimes', 'required'],
+        'city' => ['sometimes', 'required'],
+        'state' => ['sometimes', 'required'],
+        'postalCode' => ['sometimes', 'required'],
+      ];
+    }
   }
 
   protected function prepareForValidation()
