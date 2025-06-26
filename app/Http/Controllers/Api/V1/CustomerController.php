@@ -61,7 +61,9 @@ class CustomerController extends Controller
   public function store(StoreCustomerRequest $request)
   {
     // NOTE: return the new entity
-    return new CustomerResource(Customer::create([$request->all()]));
+    // dd($request->validated(),   $request->all());
+
+    return new CustomerResource(Customer::create($request->all()));
   }
 
   /**

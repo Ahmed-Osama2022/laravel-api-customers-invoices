@@ -29,12 +29,11 @@ class StoreCustomerRequest extends FormRequest
       // Make the Rules here for the request
       'name' => ['required'],
       'type' => ['required', Rule::in(['I', 'B', 'i', 'b'])],
-      'email' => ['required', 'email'],
+      'email' => ['required', 'email', 'unique:customers,email'],
       'address' => ['required'],
       'city' => ['required'],
       'state' => ['required'],
       'postalCode' => ['required'],
-
     ];
   }
 
@@ -59,5 +58,16 @@ class StoreCustomerRequest extends FormRequest
       'message'   => 'Validation errors',
       'data'      => $validator->errors()
     ], 422));
+  }
+  /**
+   * Get custom messages for validator errors.
+   *
+   * @return array
+   */
+  public function messages()
+  {
+    return [
+      'type.in' => 'The type must be I, B, i or b.',
+    ];
   }
 }
