@@ -29,7 +29,7 @@ class StoreCustomerRequest extends FormRequest
       // Make the Rules here for the request
       'name' => ['required'],
       'type' => ['required', Rule::in(['I', 'B', 'i', 'b'])],
-      'email' => ['required'],
+      'email' => ['required', 'email'],
       'address' => ['required'],
       'city' => ['required'],
       'state' => ['required'],
@@ -53,11 +53,6 @@ class StoreCustomerRequest extends FormRequest
    *
    * @throws \Illuminate\Validation\ValidationException
    */
-  // protected function failedValidation(Validator $validator)
-  // {
-  //   throw new ValidationException($validator);
-  // }
-
   protected function failedValidation(Validator $validator)
   {
     throw new HttpResponseException(response()->json([
