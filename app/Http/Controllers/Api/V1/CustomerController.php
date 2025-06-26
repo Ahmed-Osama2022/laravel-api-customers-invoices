@@ -90,9 +90,8 @@ class CustomerController extends Controller
    */
   public function update(UpdateCustomerRequest $request, Customer $customer)
   {
-
-
-    return new CustomerResource($customer->update($request->all()));
+    // $customer->update($request->all());
+    return ($customer->update($request->all()));
   }
 
   /**
