@@ -77,6 +77,16 @@ class CustomerController extends Controller
   public function show(Customer $customer)
   {
     // return $customer;
+    $includeInvoices = request()->query('includeInvoices');
+
+    if ($includeInvoices) {
+      /**
+       * loadMissing() method
+       * Eager load relations on the model if they are not already eager loaded.
+       */
+      return new CustomerResource($customer->loadMissing('invoices'));
+    }
+
     return new CustomerResource($customer);
   }
 
