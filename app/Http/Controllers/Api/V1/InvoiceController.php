@@ -53,7 +53,7 @@ class InvoiceController extends Controller
     $bulk  = collect($request->all())->map(function ($arr, $key) {
       return Arr::except($arr, ['customerId', 'billedDate', 'paidDate']);
     });
-
+    // dd($bulk); // TEST:
     Invoice::insert($bulk->toArray());
   }
 

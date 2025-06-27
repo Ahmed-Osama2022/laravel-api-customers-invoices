@@ -45,14 +45,15 @@ class BulkStoreInvoiceRequest extends FormRequest
   protected function prepareForValidation()
   {
     $data = [];
-
+    // dd($this->toArray()); //TEST:
     foreach ($this->toArray() as $obj) {
       $obj['customer_id'] = $obj['customerId'] ?? null;
       $obj['billed_date'] = $obj['billedDate'] ?? null;
       $obj['paid_date'] = $obj['paidDate'] ?? null;
 
-      $data[]  = $obj;
+      $data[] = $obj;
     }
+    // dd($data); // TEST:
     $this->merge($data);
   }
 
